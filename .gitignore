@@ -2,5 +2,6 @@
 bin/
 .classpath
 .project
-.class
-.txt
+*.class
+*.txt
+*.jar
