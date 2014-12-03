@@ -5,3 +5,5 @@ bin/
 *.class
 *.txt
 *.jar
+/Chapter1/.metadata
+
