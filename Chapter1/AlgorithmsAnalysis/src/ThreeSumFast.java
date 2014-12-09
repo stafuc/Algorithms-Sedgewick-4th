@@ -33,14 +33,16 @@ public class ThreeSumFast {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int MAX = 1000000;
-		for (int N = 100; N < 1000; N += N) {
+		int MAX = 10000000;
+		for (int N = 100; N < 500000; N += N) {
 			int[] a = new int[N];
 			for (int i = 0; i < a.length; i++) {
 				a[i] = StdRandom.uniform(-MAX, MAX);
 			}
-			StdOut.printf("three sum for %5d:%5d\n", N, ThreeSum.count(a));
-			StdOut.printf("three sum fast for %5d:%5d\n", N, ThreeSumFast.count(a));
+			StopWatch s = new StopWatch();
+			int cnt = count(a);
+//			StdOut.printf("three sum for %5d:%5d\n", N, ThreeSum.count(a));
+			StdOut.printf("three sum fast for %5d:%5d, %.3f\n", N, cnt, s.elapsedTime());
 		}
 	}
 
