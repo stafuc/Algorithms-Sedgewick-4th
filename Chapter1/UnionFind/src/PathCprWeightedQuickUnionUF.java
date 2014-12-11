@@ -33,17 +33,27 @@ public class PathCprWeightedQuickUnionUF {
 		count--;
 	}
 	
+//	public int find(int p) {
+//		Stack<Integer> s = new Stack<Integer>();
+//		++visitCnt;
+//		while(id[p] != p){
+//			s.push(p);
+//			p = id[p];
+//			visitCnt += 2;
+//		}
+//		while(!s.isEmpty()){
+//			id[s.pop()] = p;
+//			++visitCnt;
+//		}
+//		return p;
+//	}
+	
 	public int find(int p) {
-		Stack<Integer> s = new Stack<Integer>();
 		++visitCnt;
 		while(id[p] != p){
-			s.push(p);
+			id[p] = id[id[p]];
 			p = id[p];
-			visitCnt += 2;
-		}
-		while(!s.isEmpty()){
-			id[s.pop()] = p;
-			++visitCnt;
+			visitCnt += 5;
 		}
 		return p;
 	}

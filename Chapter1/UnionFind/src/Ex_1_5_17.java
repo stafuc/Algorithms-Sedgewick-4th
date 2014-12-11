@@ -2,7 +2,7 @@
 public class Ex_1_5_17 {
 
 	/**
-	 * Count.
+	 * Count. weighted quick union
 	 *
 	 * @param N the number of contacts
 	 * @return the int number of links to link all contacts
@@ -19,6 +19,12 @@ public class Ex_1_5_17 {
 		return cnt;
 	}
 	
+	/**
+	 * Count1. path compression weighted quick union
+	 *
+	 * @param N the n
+	 * @return the int
+	 */
 	public static int count1(int N) {
 		PathCprWeightedQuickUnionUF pwqu = new PathCprWeightedQuickUnionUF(N);
 		int cnt = 0;
@@ -27,6 +33,36 @@ public class Ex_1_5_17 {
 			++cnt;
 			if(pwqu.connected(p, q))	continue;
 			pwqu.union(p, q);
+		}
+		return cnt;
+	}
+	
+	/**
+	 * QF count.quick find
+	 *
+	 * @param N the n
+	 * @return the int
+	 */
+	public static int QFCount(int N) {
+		QuickFindUF qf = new QuickFindUF(N);
+		int cnt = 0;
+		while(qf.count() > 1){
+			int p = StdRandom.uniform(N), q = StdRandom.uniform(N);
+			++cnt;
+			if(qf.connected(p, q))	continue;
+			qf.union(p, q);
+		}
+		return cnt;
+	}
+	
+	public static int QUCount(int N) {
+		QuickUnionUF qu = new QuickUnionUF(N);
+		int cnt = 0;
+		while(qu.count() > 1){
+			int p = StdRandom.uniform(N), q = StdRandom.uniform(N);
+			++cnt;
+			if(qu.connected(p, q))	continue;
+			qu.union(p, q);
 		}
 		return cnt;
 	}
