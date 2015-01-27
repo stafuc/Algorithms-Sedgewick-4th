@@ -1,8 +1,12 @@
 
 public class HeapSort {
+	public static int cmp_cnt = 0;
+	public static int exc_cnt = 0;
 
-	public static void sort(Comparable[] a) {
+	public static void sort(Integer[] a) {
 		int N = a.length;
+		cmp_cnt = 0;
+		exc_cnt = 0;
 		for (int i = N / 2; i >= 1; --i) {
 			sink(a, i, N);
 		}
@@ -12,34 +16,36 @@ public class HeapSort {
 		}
 	}
 	
-	private static void sink(Comparable[] a, int i, int N) {
+	private static void sink(Integer[] a, int i, int N) {
 		while(2 * i <= N){
 			int j = 2 * i;
-			if(j + 1 <= N && less(a[j - 1], a[j]))	++j;
-			if(!less(a[i - 1], a[j - 1]))	break;
+			if(j + 1 <= N && less(a, j, j + 1))	++j;
+			if(!less(a, i, j))	break;
 			exch(a, i, j);
 			i = j;
 		}
 	}
 	
-	private static boolean less(Comparable u, Comparable v) {
-		return u.compareTo(v) < 0;
+	private static boolean less(Integer[] a, int i, int j) {
+		++cmp_cnt;
+		return a[i - 1] < a[j - 1];
 	}
 	
-	private static void exch(Comparable[] a, int i, int j) {
-		Comparable t = a[i - 1];
+	private static void exch(Integer[] a, int i, int j) {
+		++exc_cnt;
+		Integer t = a[i - 1];
 		a[i - 1] = a[j - 1];
 		a[j - 1] = t;
 	}
 	
-	public static boolean isSorted(Comparable[] a) {
+	public static boolean isSorted(Integer[] a) {
 		for (int i = 0; i < a.length - 1; i++) {
-			if(less(a[i + 1], a[i]))	return false;
+			if(a[i + 1] < a[i])	return false;
 		}
 		return true;
 	}
 	
-	public static void show(Comparable[] a) {
+	public static void show(Integer[] a) {
 		String s = "";
 		for (int i = 0; i < a.length; i++) {
 			s += a[i] + ",";
