@@ -5,14 +5,39 @@ public class BinarySearchST <Key extends Comparable<Key>, Value>{
 	private int N;
 	private int cmpCnt;
 	
+	public BinarySearchST() {
+		// TODO Auto-generated constructor stub
+		this(1);
+	}
+	
 	public BinarySearchST(int capacity){
 		keys = (Key[])new Comparable[capacity];
 		vals = (Value[])new Comparable[capacity];
 	}
 	
+	public boolean contain(Key k) {
+		for (int i = 0; i < N; i++) {
+			cmpCnt++;
+			if(keys[i].compareTo(k) == 0)	return true;
+		}
+		return false;
+	}
+	
+	private void resize(int m) {
+		Key[] nkeys = (Key[])new Comparable[m];
+		Value[] nvalues = (Value[])new Object[m];
+		for (int i = 0; i < N; i++) {
+			nkeys[i] = keys[i];
+			nvalues[i] = vals[i];
+		}
+		keys = nkeys;
+		vals = nvalues;
+	}
+	
 	public Value get(Key key) {
 		if(N == 0)	return null;
 		int r = rank(key, 0, N - 1);
+		cmpCnt++;
 		if(r < N && keys[r].compareTo(key) == 0)	return vals[r];
 		return null;
 	}
@@ -24,6 +49,7 @@ public class BinarySearchST <Key extends Comparable<Key>, Value>{
 			cmpCnt++;
 		}
 		else{
+			if(N == keys.length)	resize(2 * N);
 			for (int i = N; i > r; i--) {
 				keys[i] = keys[i - 1];
 				vals[i] = vals[i - 1];
@@ -31,6 +57,9 @@ public class BinarySearchST <Key extends Comparable<Key>, Value>{
 			keys[r] = key;
 			vals[r] = val;
 			N++;
+		}
+		for (int i = 0; i < N; i++) {
+			assert i == rank(select(i), 0, N - 1);
 		}
 	}
 	
@@ -47,6 +76,9 @@ public class BinarySearchST <Key extends Comparable<Key>, Value>{
 			}
 			N--;
 		}
+		for (int i = 0; i < N; i++) {
+			assert i == rank(select(i), 0, N - 1);
+		}
 	}
 	
 	public Key floor(Key key) {
@@ -57,6 +89,25 @@ public class BinarySearchST <Key extends Comparable<Key>, Value>{
 			else if(r > 0)	return keys[r - 1];
 			else	return null;
 		}else	return keys[N - 1];
+	}
+	
+	public Key ceiling(Key key) {
+		int r = rank(key, 0, N - 1);
+		if(r < N)	return keys[r];
+		return null;
+	}
+	
+	public Key select(int k) {
+		if(k < 0 || k >= N)	return null;
+		return keys[k];
+	}
+	
+	public void delMin() {
+		delete(keys[0]);
+	}
+	
+	public void delMax() {
+		delete(keys[N - 1]);
 	}
 	
 	public int cmpCnt() {
@@ -82,6 +133,18 @@ public class BinarySearchST <Key extends Comparable<Key>, Value>{
 		if(cmp < 0)	return rank(key, mid + 1, hi);
 		else 	return rank(key, lo, mid - 1);
 	}
+	
+	public Iterable<Key> keys() {
+		Queue<Key> q = new Queue<Key>();
+		for (int i = 0; i < N; i++) {
+			q.enqueue(keys[i]);
+		}
+		return q;
+	}
+	
+	public int size() {
+		return N;
+	}
 	/**
 	 * @param args
 	 */
@@ -94,7 +157,14 @@ public class BinarySearchST <Key extends Comparable<Key>, Value>{
 //			System.out.println(sst.cmpCnt);
 		}
 		sst.show();
-		System.out.println(sst.floor("Z"));
+		sst.delMin();
+		sst.show();
+		sst.delMin();
+		sst.delMax();
+		sst.show();
+//		System.out.println(sst.floor("Z"));
+//		System.out.println(sst.ceiling("S"));
+//		System.out.println(sst.select(200));
 //		sst.delete("E");
 //		sst.show();
 //		sst.delete("E");
